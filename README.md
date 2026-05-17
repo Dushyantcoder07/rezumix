@@ -1,165 +1,193 @@
-
-```
 # 🚀 Rezumix – AI-Powered Resume & Personality Analyzer
 
-**Rezumix** is a full-stack AI-based application that analyzes user resumes and questionnaire responses to predict personality traits using **Google's Gemini API**. It provides users with detailed insights based on the **OCEAN personality model**, along with personalized career paths and skill recommendations.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4+-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Gemini API](https://img.shields.io/badge/Google_Gemini-AI-blue?style=flat-square&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-Built entirely with the **latest version of Next.js (App Router)** and styled using **Tailwind CSS**, Rezumix provides a smooth, modern, and responsive user experience.
+**Rezumix** is a sophisticated full-stack AI application designed to bridge the gap between technical qualifications and psychological soft skills. By analyzing a user's resume and behavioral questionnaire responses, Rezumix leverages **Google's Gemini API** to predict personality traits using the industry-standard **OCEAN (Big Five) personality model**. It empowers users with deep psychological insights, personalized career trajectories, and targeted skill recommendations.
+
+---
+
+## 📌 Table of Contents
+
+- [📦 Key Features](#-key-features)
+- [🏗️ System Architecture & Logic](#️-system-architecture--logic)
+- [🗂️ Project Structure](#️-project-structure)
+- [⚙️ Getting Started](#️-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation Guide](#installation-guide)
+  - [Environment Configuration](#environment-configuration)
+- [🔌 API Routes Overview](#-api-routes-overview-appapi)
+  - [Auth Routes](#-auth-routes)
+  - [Resume analysis](#-resume-analysis)
+  - [Questionnaire Routes](#-questionnaire-routes)
+  - [Personality Report](#-personality-report)
+- [🔐 Authentication & Security](#-authentication--security)
+- [🤖 Sample Gemini Prompt](#-sample-gemini-prompt)
+- [📈 Future Roadmap](#-future-roadmap)
+- [🤝 Contributing Guide](#-contributing-guide)
+- [👤 Author](#-author)
+- [📄 License](#-license)
 
 ---
 
 ## 📦 Key Features
 
-- 📄 Resume Upload and Text Extraction
-- 🤖 AI-Powered Personality Analysis (Resume + Questionnaire)
-- 📊 Interactive OCEAN Personality Reports
-- 🧭 Career and Skill Recommendations
-- 🔐 JWT-Based User Authentication
-- 🎯 Modular Codebase (API, Components, Models, Utils)
-- 💡 Gemini API Integration for Dynamic Prompting
-- 🎨 Clean and Animated UI (Framer Motion + Tailwind)
+*   **📄 Dual-Engine Analysis:** Extract text directly from uploaded PDFs or process psychological data through native questionnaire tracking.
+*   **🧠 AI-Powered OCEAN Profiling:** Deep evaluation across Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism utilizing custom engineering on Google Gemini.
+*   **📊 Dynamic Visual Dashboards:** Rich, interactive charts and modern reporting modules built with Tailwind CSS and animated using Framer Motion.
+*   **🧭 Actionable Career Roadmaps:** Algorithmic-like tailored tracking mapping personality profiles to realistic job domains and required skillsets.
+*   **🔐 Bulletproof Authentication:** Secure registration and stateful user management via JWT parameters encrypted in HTTP-only cookies.
+
+---
+
+## 🏗️ System Architecture & Logic
+
+### Resume-Based Analysis Pipeline
+1. **Upload:** User provides an engineering/corporate resume (PDF formatted directly to base64 encoding).
+2. **Parsing:** System strips raw text and feeds it alongside structured, localized prompts to the LLM core.
+3. **Inference:** Gemini evaluates semantic phrasing to output structured decimal profiles ($0.0 - 1.0$) matching the Big Five spectrum.
+4. **Persistence:** Complete datasets are structured in Mongoose models and reflected instantaneously on the frontend graphs.
+
+### Questionnaire-Based Narrative Pipeline
+1. **Behavioral Prompts:** Users interact with an $8\text{--}10$ question deep-dive testing soft metrics and situational judgment.
+2. **Narrative Construction:** Submissions compose an encrypted user-intent prompt evaluated contextually by Gemini.
+3. **Insight Dispatch:** The engine outputs raw personality metrics coupled with tailored career vectors, saved automatically to the relational MongoDB clusters.
 
 ---
 
 ## 🗂️ Project Structure
 
-```
+```text
 rezumix/
 ├── app/
-│   ├── layout.js                    # App layout wrapper
-│   ├── page.js                      # Landing/home page
-│   ├── dashboard/                   # Authenticated user dashboard
-│   ├── upload/                      # Resume upload and handling
-│   ├── questionnaire/              # Personality test interface
-│   ├── result/                      # Personality report and insights
-│   ├── api/
-│   │   ├── auth/
-│   │   │   ├── login/route.js
-│   │   │   └── register/route.js
-│   │   ├── resume/
-│   │   │   ├── upload/route.js
-│   │   │   └── analyze/route.js
-│   │   ├── questionnaire/
-│   │   │   ├── submit/route.js
-│   │   │   └── sample/route.js
-│   │   └── personality/
-│   │       ├── report/route.js
-│   │       └── tips/route.js
-│   └── components/                  # Reusable React components
+│   ├── layout.js                 # App layout wrapper
+│   ├── page.js                   # Landing/home page
+│   ├── dashboard/                # Authenticated user dashboard
+│   ├── upload/                   # Resume upload and handling
+│   ├── questionnaire/            # Personality test interface
+│   ├── result/                   # Personality report and insights
+│   └── api/                      # Next.js App Router API Engines
+│       ├── auth/                 # JWT login/register routines
+│       ├── resume/               # File parsers and text extraction
+│       ├── questionnaire/        # Dynamic test handlers
+│       └── personality/          # Aggregation modules and tips
+├── components/                   # Reusable UI/UX Elements
 ├── lib/
-│   ├── db.js                        # MongoDB connection utility
-│   ├── gemini.js                    # Gemini API functions
-│   └── utils.js                     # Token generation, validation, etc.
+│   ├── db.js                     # MongoDB connection utility
+│   ├── gemini.js                 # Gemini API integration wrapper
+│   └── utils.js                  # Token generation, validation, etc.
 ├── models/
-│   ├── User.js                      # Mongoose model for user
-│   ├── Report.js                    # Mongoose model for personality report
-│   └── Questionnaire.js             # Model for user responses
-├── public/                          # Static assets (icons, screenshots)
-├── styles/                          # Tailwind and custom CSS
-├── .env.local                       # Environment variables
-├── next.config.js
-└── README.md
+│   ├── User.js                   # Mongoose user model
+│   ├── Report.js                 # Mongoose personality analytics model
+│   └── Questionnaire.js          # Mongoose questionnaire tracking model
+├── public/                       # Static media, icons, and assets
+├── styles/                       # Global Tailwind and structural CSS
+├── .env.local                    # Local environment variables
+└── next.config.js                # Core Next.js compilation options
+
 ```
 
 ---
 
-## ⚙️ Installation Guide
+## ⚙️ Getting Started
 
-### 1. Clone the Repo
+### Prerequisites
 
+Before running the application, make sure you have the following installed locally:
+
+* [Node.js](https://nodejs.org/) (v18.x or later recommended)
+* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+* A running instance of [MongoDB](https://www.mongodb.com/) (Local or Atlas)
+
+### Installation Guide
+
+1. **Clone the Repo:**
 ```bash
-git clone https://github.com/thedevanshagrawal/rezumix.git
+git clone [https://github.com/thedevanshagrawal/rezumix.git](https://github.com/thedevanshagrawal/rezumix.git)
 cd rezumix
+
 ```
 
-### 2. Install Dependencies
 
+2. **Install Dependencies:**
 ```bash
 npm install
+
 ```
 
-### 3. Add Environment Variables
 
-Create a `.env.local` file in the root:
+
+### Environment Configuration
+
+Create a `.env.local` file in the root directory and add the following keys:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-EMAIL_USER=
-EMAIL_PASS=
-JWT_SECRET=your_jwt_secret=
-GEMINI_API_KEY=your_gemini_api_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
+EMAIL_USER=your_email_address
+EMAIL_PASS=your_email_password
+JWT_SECRET=your_secure_jwt_secret_key
+GEMINI_API_KEY=your_google_gemini_api_key
+
 ```
 
-### 4. Run the App Locally
+### Running Locally
 
 ```bash
 npm run dev
+
 ```
+
+Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) inside your browser to view the app.
 
 ---
 
-## 📌 API Routes Overview (`/app/api/`)
+## 🔌 API Routes Overview (`/app/api/`)
 
 ### 🔐 Auth Routes
 
-| Method | Route                  | Description              |
-|--------|------------------------|--------------------------|
-| POST   | `/api/auth/register`   | Register new user        |
-| POST   | `/api/auth/login`      | Authenticate + JWT token |
-
----
+| Method | Route | Description |
+| --- | --- | --- |
+| `POST` | `/api/auth/register` | Register a new user profile |
+| `POST` | `/api/auth/login` | Authenticate credentials and drop an HTTP-only JWT |
 
 ### 📄 Resume Analysis
 
-| Method | Route                   | Description                        |
-|--------|-------------------------|------------------------------------|
-| POST   | `/api/resume/upload`    | Accept base64 PDF                  |
-| POST   | `/api/resume/analyze`   | Analyze resume content using Gemini|
-
----
+| Method | Route | Description |
+| --- | --- | --- |
+| `POST` | `/api/resume/upload` | Validates and saves base64 PDF strings |
+| `POST` | `/api/resume/analyze` | Passes structural text blocks to Gemini for score generation |
 
 ### 🧠 Questionnaire Routes
 
-| Method | Route                           | Description                       |
-|--------|----------------------------------|-----------------------------------|
-| GET    | `/api/questionnaire/sample`     | Fetch Gemini-generated questions  |
-| POST   | `/api/questionnaire/submit`     | Submit user answers for analysis  |
-
----
+| Method | Route | Description |
+| --- | --- | --- |
+| `GET` | `/api/questionnaire/sample` | Fetches randomized behavioral prompts generated by the AI |
+| `POST` | `/api/questionnaire/submit` | Submits targeted user solutions directly to evaluation engines |
 
 ### 📊 Personality Report
 
-| Method | Route                        | Description                        |
-|--------|------------------------------|------------------------------------|
-| GET    | `/api/personality/report`    | Fetch user’s report & scores       |
-| GET    | `/api/personality/tips`      | Gemini-generated improvement tips  |
+| Method | Route | Description |
+| --- | --- | --- |
+| `GET` | `/api/personality/report` | Serves finalized profile metrics and dashboard data |
+| `GET` | `/api/personality/tips` | Distributes dynamic growth advice parsed by the AI |
 
 ---
 
-## 🧠 Personality Analysis Logic
+## 🔐 Authentication & Security
 
-### Resume-Based Flow:
-
-1. User uploads resume (PDF → base64).
-2. Text is extracted from the file.
-3. Gemini API receives the extracted text + structured prompt.
-4. AI returns OCEAN scores, explanation, job/career fit, etc.
-5. Result is saved to the DB and visualized in the report page.
-
-### Questionnaire-Based Flow:
-
-1. User answers 8–10 behavioral/psychological questions.
-2. The entire set of responses is formatted as a narrative.
-3. Gemini API receives prompt with user’s responses.
-4. Output includes personality scores, descriptions, and advice.
-5. Stored and visualized in the dashboard/report section.
+* **Secure Cookies:** Session tokens are minted using **JSON Web Tokens (JWT)** and locked strictly inside `HTTP-only` and `SameSite` cookie definitions to mitigate XSS risks.
+* **Password Hashing:** Standard plain-text password objects undergo salt rounds and processing via `bcrypt` hooks before database insertion.
+* **Route Guards:** Next.js middleware layers inspect incoming dynamic tokens to prevent unauthorized route access to analytical modules.
 
 ---
 
-## ✨ Sample Gemini Prompt
+## 🤖 Sample Gemini Prompt
 
 ```text
 Analyze the following resume content and predict the user's Big Five (OCEAN) personality traits.
@@ -178,51 +206,46 @@ Format:
   "Conscientiousness": 0.78,
   ...
 }
+
 ```
-
----
-
-## 🔐 Authentication
-
-- Uses **JWT tokens** stored in **HTTP-only cookies**
-- Passwords hashed using `bcrypt`
-- Middleware checks for authenticated access to protected routes
-- Clean separation of login, register, and token logic in `/api/auth`
 
 ---
 
 ## 📈 Future Roadmap
 
-- 🎙️ Add voice input for questionnaire
-- 💬 Introduce AI chat support with emotional memory
-- 🧑‍🎨 Add animated avatar for AI interaction
-- 📥 Allow export of report as PDF
-- 📱 Build a mobile app (React Native)
-- 🗺️ Multilingual support (i18n)
+* 🎙️ **Voice Integration:** Speech-to-text processing for dynamic oral questionnaire submissions.
+* 💬 **Emotional Memory Hub:** Contextual conversational AI tracking long-term testing trends.
+* 🧑‍🎨 **Interactive Avatars:** Framer Motion animated elements processing user analytical outcomes in real-time.
+* 📥 **Report Exports:** Native compiled PDF downloads for direct sharing with recruiters.
 
+---
+
+## 🤝 Contributing Guide
+
+Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
 ## 👤 Author
 
-**Devansh Agrawal**  
+**Devansh Agrawal**
+
 🎓 B.Tech CSE, The ICFAI University, Raipur  
 🧠 Full Stack & AI Developer  
 🔗 [LinkedIn](https://www.linkedin.com/in/thedevanshagrawal/)  
-💻 GitHub: [@thedevanshagrawal](https://github.com/thedevanshagrawal)  
-📧 Email: agrawaldevansh27@gmail.com
+💻 [GitHub](https://github.com/thedevanshagrawal)  
+📧 Email: agrawaldevansh27@gmail.com  
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.  
-You're free to use, modify, and distribute — just give credit!
-
----
-
-## ✅ Conclusion
-
-**Rezumix** combines the power of **AI** with intuitive **design** to help users unlock their personality traits, identify strengths, and find the best career fit based on who they truly are. Whether you're a student, job seeker, or HR professional, **Rezumix** provides actionable insights in seconds.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 > _“Your personality. Your potential. Rezumix.”_
