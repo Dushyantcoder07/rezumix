@@ -11,7 +11,10 @@ const OTPSchema = mongoose.Schema({
         type: Date
     },
 }, {
-    timestaps: true
+    timestamps: true
 })
+
+// TTL index: MongoDB automatically deletes documents when expiresAt is in the past
+OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export default mongoose.models.OTP || mongoose.model("OTP", OTPSchema);

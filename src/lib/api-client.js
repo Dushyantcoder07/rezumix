@@ -32,6 +32,15 @@ class ApiClient {
         }
     }
 
+    async resendOTP(email) {
+        try {
+            const response = await this.api.post("/user/resend-otp", { email })
+            return response
+        } catch (error) {
+            throw error
+        }
+    }
+
     async updateProfile(email, passwordChange) {
         try {
             const response = await this.api.post(`/user/change-password?email=${encodeURIComponent(email)}`, { passwordChange })
