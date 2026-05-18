@@ -41,7 +41,25 @@ export async function POST(req) {
 
         await connectDB();
 
-        // ── 3. Find OTP record ──
+        // ── 3. Check if user exists and is already verified ──
+        const user = await userModel.findOne({ email: sanitizedEmail });
+        if (!user) {
+            return NextResponse.json({ 
+                message: "User not found",
+                errors: [{ field: "email", messages: ["No user associated with this email could be found"] }]
+            }, { status: 404 });
+        }
+
+        if (user.isVerified) {
+            return NextResponse.json({ 
+                success: false,
+                message: "Already verified",
+                isAlreadyVerified: true,
+                errors: [{ field: "email", messages: ["This account is already verified. Please log in."] }]
+            }, { status: 400 });
+        }
+
+        // ── 4. Find OTP record ──
         const record = await OTPModel.findOne({ email: sanitizedEmail });
 
         if (!record || record.otp !== otp || record.expiresAt < Date.now()) {

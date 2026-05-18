@@ -49,6 +49,7 @@ export async function POST(req) {
             return NextResponse.json({
                 success: false,
                 message: "Already verified",
+                isAlreadyVerified: true,
                 errors: [{ field: "email", messages: ["This account is already verified. Please log in."] }]
             }, { status: 400 });
         }
