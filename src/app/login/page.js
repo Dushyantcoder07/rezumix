@@ -152,7 +152,7 @@ export default function LoginPage() {
         setLoading(false);
     };
 
-    if (session) return null; // Prevent flash of login screen while redirecting
+    if (session) return null;
 
     return (
         <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-blue-500/30 flex items-center justify-center p-6">
@@ -211,22 +211,7 @@ export default function LoginPage() {
                                             : "border-white/10 focus:border-blue-500/50 focus:ring-blue-500/50"
                                     }`}
                                 />
-                                {emailTouched && (
-                                    <div className="absolute right-4 top-3.5">
-                                        {isEmailValid ? (
-                                            <CheckCircle2 className="w-5 h-5 text-green-400" />
-                                        ) : (
-                                            <AlertCircle className="w-5 h-5 text-red-400" />
-                                        )}
-                                    </div>
-                                )}
                             </div>
-                            {emailTouched && !isEmailValid && (
-                                <p className="text-xs text-red-400 ml-1 flex items-center gap-1.5 animate-fadeIn">
-                                    <span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />
-                                    Enter a valid email address (e.g. name@example.com)
-                                </p>
-                            )}
                         </div>
 
                         {/* Password Input */}
@@ -243,6 +228,15 @@ export default function LoginPage() {
                                     className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
                                 />
                             </div>
+                        </div>
+
+                        <div className="flex justify-end">
+                            <Link
+                                href="/forgot-password"
+                                className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                            >
+                                Forgot Password?
+                            </Link>
                         </div>
 
                         {/* Submit Button */}
@@ -275,7 +269,6 @@ export default function LoginPage() {
                         </p>
                     </div>
 
-                    {/* Spotlight Card Inner Wrapper */}
                 </SpotlightCard>
             </motion.div>
         </div>
