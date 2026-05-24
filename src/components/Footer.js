@@ -10,12 +10,12 @@ const Footer = () => {
     if (session) return null;
 
     return (
-        <footer className="relative bg-[#050505] border-t border-white/5 overflow-hidden pt-20 pb-10">
+        <footer className="relative bg-background border-t border-border overflow-hidden pt-20 pb-10 transition-colors duration-300">
 
             {/* Background Grid Pattern (Matching Home Page) */}
             <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px]" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full" />
             </div>
 
             <div className="relative z-10 container mx-auto px-6 max-w-7xl">
@@ -26,7 +26,7 @@ const Footer = () => {
                         <Link href="/">
                             <Image src={'/rezumix_logo.png'} alt='Rezumix' width={200} height={50} className="w-40 opacity-90" />
                         </Link>
-                        <p className="text-slate-400 max-w-sm leading-relaxed">
+                        <p className="text-muted-foreground max-w-sm leading-relaxed">
                             Empowering careers with AI intelligence. Stop guessing and start getting hired with data-driven insights.
                         </p>
 
@@ -42,7 +42,7 @@ const Footer = () => {
                                     key={idx}
                                     href={social.href}
                                     target="_blank"
-                                    className="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+                                    className="w-10 h-10 rounded-full bg-muted/50 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
                                 >
                                     {/* Simple mapping for Icons based on index/name or just SVG directly */}
                                     <SocialIcon name={social.icon} />
@@ -53,7 +53,7 @@ const Footer = () => {
 
                     {/* Links Columns */}
                     <div>
-                        <h3 className="text-white font-bold mb-6">Product</h3>
+                        <h3 className="text-foreground font-bold mb-6">Product</h3>
                         <ul className="space-y-4">
                             {[
                                 "Resume Checker",
@@ -63,7 +63,7 @@ const Footer = () => {
                                 "Skill Analysis"
                             ].map((item, i) => (
                                 <li key={i}>
-                                    <Link href="/login" className="text-slate-400 hover:text-blue-400 transition-colors text-sm">
+                                    <Link href="/login" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                                         {item}
                                     </Link>
                                 </li>
@@ -72,7 +72,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 className="text-white font-bold mb-6">Company</h3>
+                        <h3 className="text-foreground font-bold mb-6">Company</h3>
                         <ul className="space-y-4">
                             {[
                                 { label: "About", href: "/about" },
@@ -86,14 +86,14 @@ const Footer = () => {
                                         <a
                                             href={href}
                                             download
-                                            className="text-gray-400 hover:text-emerald-400 transition-colors duration-300"
+                                            className="text-muted-foreground hover:text-foreground transition-colors duration-300"
                                         >
                                             {label}
                                         </a>
                                     ) : (
                                         <Link
                                             href={href}
-                                            className="text-gray-400 hover:text-pink-400 transition-colors duration-300"
+                                            className="text-muted-foreground hover:text-foreground transition-colors duration-300"
                                         >
                                             {label}
                                         </Link>
@@ -105,12 +105,12 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-slate-600 text-sm">© {new Date().getFullYear()} Rezumix Inc. All rights reserved.</p>
+                <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p className="text-muted-foreground text-sm">© {new Date().getFullYear()} Rezumix Inc. All rights reserved.</p>
 
                     {/* Big Brand Text (Subtle) */}
                     <div className="hidden md:block">
-                        <span className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-900 bg-clip-text text-transparent select-none">
+                        <span className="text-2xl font-bold bg-gradient-to-r from-slate-400 to-slate-700 dark:from-slate-800 dark:to-slate-900 bg-clip-text text-transparent select-none">
                             REZUMIX
                         </span>
                     </div>

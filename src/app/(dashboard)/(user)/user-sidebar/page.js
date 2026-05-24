@@ -73,9 +73,9 @@ export default function UserSidebar() {
     return (
         <>
             {/* --- Mobile Header --- */}
-            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#050505]/90 backdrop-blur-md border-b border-white/10 z-50 flex items-center justify-between px-4">
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background/90 backdrop-blur-md border-b border-border z-50 flex items-center justify-between px-4">
                 <div className="flex items-center gap-3">
-                    <button onClick={toggleMobileMenu} className="p-2 -ml-2 text-slate-400 hover:text-white">
+                    <button onClick={toggleMobileMenu} className="p-2 -ml-2 text-muted-foreground hover:text-foreground">
                         <Menu size={24} />
                     </button>
                     {/* Mobile Logo */}
@@ -89,14 +89,14 @@ export default function UserSidebar() {
                         />
                     </div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs">
                     {userName[0]}
                 </div>
             </div>
 
             {/* --- Mobile Overlay --- */}
             {mobileOpen && (
-                <div onClick={closeMobileMenu} className="md:hidden fixed inset-0 bg-black/80 z-40 backdrop-blur-sm" />
+                <div onClick={closeMobileMenu} className="md:hidden fixed inset-0 bg-foreground/40 z-40 backdrop-blur-sm" />
             )}
 
             {/* --- Sidebar --- */}
@@ -104,8 +104,8 @@ export default function UserSidebar() {
                 onMouseEnter={() => setCollapsed(false)}
                 onMouseLeave={() => setCollapsed(true)}
                 className={`
-                    fixed top-0 left-0 h-full bg-[#050505] border-r border-white/10 z-50 
-                    text-slate-300 transition-all duration-300 ease-in-out
+                    fixed top-0 left-0 h-full bg-background/95 backdrop-blur-xl border-r border-border z-50 
+                    text-muted-foreground transition-all duration-300 ease-in-out
                     
                     /* Mobile State */
                     ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -115,16 +115,16 @@ export default function UserSidebar() {
                     md:translate-x-0 
                     ${collapsed ? 'md:w-20' : 'md:w-72'} 
                     
-                    flex flex-col shadow-2xl
+                    flex flex-col shadow-2xl shadow-black/10
                 `}
             >
                 {/* Logo Area */}
-                <div className="h-20 flex items-center justify-center md:justify-start px-0 md:px-6 border-b border-white/5 relative overflow-hidden">
+                <div className="h-20 flex items-center justify-center md:justify-start px-0 md:px-6 border-b border-border relative overflow-hidden">
 
                     {/* 1. Collapsed State: Show Icon */}
                     <div className={`absolute transition-all duration-300 flex items-center justify-center ${collapsed ? 'opacity-100 scale-100 delay-100' : 'opacity-0 scale-0'}`}>
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                            <Sparkles className="w-6 h-6 text-blue-400" />
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                            <Sparkles className="w-6 h-6 text-primary" />
                         </div>
                     </div>
 
@@ -154,10 +154,10 @@ export default function UserSidebar() {
                                 onClick={closeMobileMenu}
                                 className={`
                                     relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 group
-                                    ${active ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'}
+                                    ${active ? 'bg-primary/10 text-primary border border-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent'}
                                 `}
                             >
-                                <div className={`shrink-0 transition-colors ${active ? 'text-blue-400' : 'text-slate-500 group-hover:text-white'}`}>
+                                <div className={`shrink-0 transition-colors ${active ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}`}>
                                     <Icon size={20} />
                                 </div>
 
@@ -167,7 +167,7 @@ export default function UserSidebar() {
 
                                 {/* Active Indicator Dot */}
                                 {active && (
-                                    <div className={`absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)] transition-opacity duration-300 ${collapsed ? 'opacity-0' : 'opacity-100'}`} />
+                                    <div className={`absolute right-2 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.45)] transition-opacity duration-300 ${collapsed ? 'opacity-0' : 'opacity-100'}`} />
                                 )}
                             </Link>
                         )
@@ -175,7 +175,7 @@ export default function UserSidebar() {
                 </div>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-white/5 bg-[#0A0A0A]">
+                <div className="p-4 border-t border-border bg-card/80">
                     <button
                         onClick={async () => { closeMobileMenu(); await signOut({ callbackUrl: "/" }); }}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-300 cursor-pointer ${collapsed ? 'md:justify-center' : ''}`}

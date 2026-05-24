@@ -75,18 +75,18 @@ export default function BuilderHeader({
   };
 
   return (
-    <header className="h-16 bg-gray-950 border-b border-white/10 flex items-center justify-between px-4 md:px-6 sticky top-0 z-50">
+    <header className="h-16 bg-card border-b border-border flex items-center justify-between px-4 md:px-6 sticky top-0 z-50">
 
       {/* Center: Template Switcher (desktop) */}
-      <div className="hidden md:flex items-center gap-1 bg-white/5 rounded-lg p-1">
+      <div className="hidden md:flex items-center gap-1 bg-muted/50 rounded-lg p-1 border border-border">
         {TEMPLATES.map((t) => (
           <button
             key={t.id}
             onClick={() => setActiveTemplate(t.id)}
             className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 active:scale-95 cursor-pointer ${
               activeTemplate === t.id
-                ? "bg-blue-600 text-white font-medium shadow"
-                : "text-white/50 hover:text-white"
+                ? "bg-primary text-primary-foreground font-medium shadow"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {t.label}
@@ -98,11 +98,11 @@ export default function BuilderHeader({
       <div className="flex items-center gap-2">
 
         {/* Mobile view toggle */}
-        <div className="flex md:hidden items-center bg-white/5 rounded-lg p-1">
+        <div className="flex md:hidden items-center bg-muted/50 rounded-lg p-1 border border-border">
           <button
             onClick={() => setMobileView("form")}
             className={`px-3 py-1 text-sm rounded-md transition-all active:scale-95 ${
-              mobileView === "form" ? "bg-blue-600 text-white" : "text-white/50"
+              mobileView === "form" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
             }`}
           >
             Form
@@ -110,7 +110,7 @@ export default function BuilderHeader({
           <button
             onClick={() => setMobileView("preview")}
             className={`px-3 py-1 text-sm rounded-md transition-all active:scale-95 ${
-              mobileView === "preview" ? "bg-blue-600 text-white" : "text-white/50"
+              mobileView === "preview" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
             }`}
           >
             Preview
@@ -119,14 +119,14 @@ export default function BuilderHeader({
 
         {/* Save Message */}
         {saveMsg && (
-          <span className="text-xs text-white/60">{saveMsg}</span>
+          <span className="text-xs text-muted-foreground">{saveMsg}</span>
         )}
 
         {/* AI Suggestions Button */}
         <button
           onClick={onGetSuggestions}
           disabled={suggesting}
-          className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-60"
+          className="flex items-center gap-2 bg-muted/50 hover:bg-muted border border-border text-foreground text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-60"
         >
           {suggesting ? "Analyzing..." : "✨ AI Suggestions"}
         </button>
@@ -135,7 +135,7 @@ export default function BuilderHeader({
         <button
           onClick={onSave}
           disabled={saving}
-          className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-60"
+          className="flex items-center gap-2 bg-muted/50 hover:bg-muted border border-border text-foreground text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-60"
         >
           {saving ? "Saving..." : "Save Resume"}
         </button>
@@ -145,7 +145,7 @@ export default function BuilderHeader({
           <button
             onClick={() => setExportOpen(!exportOpen)}
             disabled={exporting}
-            className="flex items-center gap-2 bg-white text-black hover:bg-slate-200 disabled:opacity-60 disabled:cursor-not-allowed font-medium text-sm px-4 py-2 rounded-xl transition-all duration-200 active:scale-95"
+            className="flex items-center gap-2 bg-foreground text-background hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed font-medium text-sm px-4 py-2 rounded-xl transition-all duration-200 active:scale-95"
           >
             {exporting ? (
               <>
@@ -189,13 +189,13 @@ export default function BuilderHeader({
                     gap: "12px",
                     padding: "10px 16px",
                     fontSize: "13px",
-                    color: "rgba(255,255,255,0.8)",
+                    color: "rgba(255,255,255,0.9)",
                     background: "none",
                     border: "none",
                     cursor: "pointer",
                     textAlign: "left",
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)"}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)"}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
                 >
                   <span>{item.icon}</span>

@@ -42,15 +42,15 @@ export default function ResumeForm({ resumeData, updateResumeData }) {
   return (
     <div className="flex flex-col h-full">
       {/* Section Nav */}
-      <div className="flex overflow-x-auto border-b border-white/10 bg-gray-950">
+      <div className="flex overflow-x-auto border-b border-border bg-card">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
             onClick={() => setActiveSection(s.id)}
             className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-3 text-sm border-b-2 transition-all duration-200 cursor-pointer whitespace-nowrap ${
               activeSection === s.id
-                ? "border-blue-500 text-white font-medium"
-                : "border-transparent text-white/40 hover:text-white/70"
+                ? "border-primary text-foreground font-medium"
+                : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
             <span>{s.icon}</span>

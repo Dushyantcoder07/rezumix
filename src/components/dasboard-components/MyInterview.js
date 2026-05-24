@@ -18,13 +18,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/lib/api-client";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { useTheme } from "@/components/ThemeProvider";
 
 // 1. Grid Background
-const GridBackground = () => (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-violet-600/5 blur-[120px] rounded-full mix-blend-screen" />
-        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-fuchsia-600/5 blur-[120px] rounded-full mix-blend-screen" />
+const GridBackground = ({ isDark }) => (
+    <div className={isDark ? "fixed inset-0 z-0 pointer-events-none bg-[#050505]" : "fixed inset-0 z-0 pointer-events-none bg-slate-50"}>
+        <div className={isDark ? "absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" : "absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.06)_1px,transparent_1px)] bg-[size:32px_32px]"} />
+        <div className={isDark ? "absolute top-0 left-0 w-full h-[60vh] bg-violet-600/5 blur-[120px] rounded-full mix-blend-screen" : "absolute top-0 left-0 w-full h-[60vh] bg-violet-400/10 blur-[120px] rounded-full mix-blend-screen"} />
+        <div className={isDark ? "absolute bottom-0 right-0 w-full h-[60vh] bg-fuchsia-600/5 blur-[120px] rounded-full mix-blend-screen" : "absolute bottom-0 right-0 w-full h-[60vh] bg-fuchsia-400/10 blur-[120px] rounded-full mix-blend-screen"} />
     </div>
 );
 
@@ -64,10 +65,20 @@ function SpotlightCard({ children, className = "" }) {
 const MyInterview = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { isDark } = useTheme();
 
     const [interviewDetails, setInterviewDetails] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const pageClassName = isDark ? "relative min-h-screen bg-[#050505] text-slate-200" : "relative min-h-screen bg-slate-50 text-slate-900";
+    const cardClassName = isDark ? "relative border border-white/10 bg-[#0A0A0A] overflow-hidden group" : "relative border border-slate-200 bg-white overflow-hidden group shadow-xl shadow-slate-200/70";
+    const titleClassName = isDark ? "text-white" : "text-slate-900";
+    const mutedTextClassName = isDark ? "text-slate-500" : "text-slate-500";
+    const bodyTextClassName = isDark ? "text-slate-400" : "text-slate-600";
+    const searchInputClassName = isDark
+        ? "pl-12 bg-[#0A0A0A] border-white/10 text-white focus:border-violet-500/50 h-12 rounded-xl w-full"
+        : "pl-12 bg-white border-slate-200 text-slate-900 focus:border-violet-500/50 h-12 rounded-xl w-full placeholder:text-slate-400";
 
     const filteredInterviews = useMemo(() => {
         return interviewDetails.filter((interview) => {
@@ -111,21 +122,21 @@ const MyInterview = () => {
 
     if (status === "loading" || isLoading) {
         return (
-            <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-                <div className="text-slate-500">Loading interviews...</div>
+            <div className={isDark ? "min-h-screen bg-[#050505] flex items-center justify-center" : "min-h-screen bg-slate-50 flex items-center justify-center"}>
+                <div className={mutedTextClassName}>Loading interviews...</div>
             </div>
         );
     }
 
     return (
-        <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-violet-500/30 overflow-x-hidden">
-            <GridBackground />
+        <div className={`${pageClassName} font-sans selection:bg-violet-500/30 overflow-x-hidden`}>
+            <GridBackground isDark={isDark} />
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
 
                 {/* Header */}
                 <div className="mb-12">
-                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                    <h1 className={`text-3xl md:text-5xl font-bold ${titleClassName} mb-6`}>
                         Your Mock Interviews
                     </h1>
 
@@ -137,17 +148,17 @@ const MyInterview = () => {
                             placeholder="Search by role or tech stack..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-12 bg-[#0A0A0A] border-white/10 text-white focus:border-violet-500/50 h-12 rounded-xl w-full"
+                            className={searchInputClassName}
                         />
                     </div>
                 </div>
 
                 {/* Content Grid */}
                 {filteredInterviews.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-20 border border-dashed border-white/10 rounded-3xl bg-white/[0.02]">
+                    <div className={isDark ? "flex flex-col items-center justify-center py-20 border border-dashed border-white/10 rounded-3xl bg-white/[0.02]" : "flex flex-col items-center justify-center py-20 border border-dashed border-slate-300 rounded-3xl bg-white shadow-sm"}>
                         <BookOpen className="w-16 h-16 text-slate-700 mb-4" />
-                        <h3 className="text-xl font-bold text-white mb-2">No Interviews Found</h3>
-                        <p className="text-slate-500 mb-6">Create a new session to get started.</p>
+                        <h3 className={`text-xl font-bold ${titleClassName} mb-2`}>No Interviews Found</h3>
+                        <p className={`${bodyTextClassName} mb-6`}>Create a new session to get started.</p>
                         <Link href="/mock-interview">
                             <Button className="bg-white text-black hover:bg-slate-200 rounded-xl px-6 cursor-pointer">
                                 Create New
@@ -157,7 +168,7 @@ const MyInterview = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredInterviews.map((details, index) => (
-                            <SpotlightCard key={details._id || index} className="rounded-2xl p-6 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
+                            <SpotlightCard key={details._id || index} className={`${isDark ? "rounded-2xl p-6 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300" : "rounded-2xl p-6 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300"}`}>
 
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-3">
@@ -165,10 +176,10 @@ const MyInterview = () => {
                                             <Briefcase className="w-6 h-6 text-violet-400" />
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-bold text-white leading-tight line-clamp-1">
+                                            <h3 className={`text-lg font-bold ${titleClassName} leading-tight line-clamp-1`}>
                                                 {details.jobRole}
                                             </h3>
-                                            <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
+                                            <div className={`flex items-center gap-1 text-xs ${mutedTextClassName} mt-1`}>
                                                 <Calendar className="w-3 h-3" />
                                                 {new Date(details.createdAt).toLocaleDateString()}
                                             </div>
@@ -181,7 +192,7 @@ const MyInterview = () => {
                                         <div className="text-xs font-medium text-slate-500 uppercase mb-1 flex items-center gap-1">
                                             <Target className="w-3 h-3" /> Description
                                         </div>
-                                        <p className="text-sm text-slate-400 line-clamp-2">
+                                        <p className={`text-sm ${bodyTextClassName} line-clamp-2`}>
                                             {details.jobDescription}
                                         </p>
                                     </div>
@@ -192,7 +203,7 @@ const MyInterview = () => {
                                         </div>
                                         <div className="flex flex-wrap gap-2">
                                             {details.techStack.split(",").slice(0, 3).map((tech, i) => (
-                                                <span key={i} className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-xs text-slate-300">
+                                                <span key={i} className={isDark ? "px-2 py-1 bg-white/5 border border-white/5 rounded-md text-xs text-slate-300" : "px-2 py-1 bg-slate-100 border border-slate-200 rounded-md text-xs text-slate-700"}>
                                                     {tech.trim()}
                                                 </span>
                                             ))}

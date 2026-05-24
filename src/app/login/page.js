@@ -23,7 +23,7 @@ function SpotlightCard({ children, className = "" }) {
 
     return (
         <div
-            className={`relative border border-white/10 bg-neutral-900/50 overflow-hidden group ${className}`}
+            className={`relative border border-border bg-card/80 overflow-hidden group ${className}`}
             onMouseMove={handleMouseMove}
         >
             <motion.div
@@ -45,10 +45,10 @@ function SpotlightCard({ children, className = "" }) {
 
 // 2. Background Pattern
 const GridBackground = () => (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-blue-600/5 blur-[120px] rounded-full mix-blend-screen" />
-        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-purple-600/5 blur-[120px] rounded-full mix-blend-screen" />
+    <div className="fixed inset-0 z-0 pointer-events-none bg-background">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute top-0 left-0 w-full h-[60vh] bg-primary/5 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-secondary/20 blur-[120px] rounded-full mix-blend-screen" />
     </div>
 );
 
@@ -155,7 +155,7 @@ export default function LoginPage() {
     if (session) return null; // Prevent flash of login screen while redirecting
 
     return (
-        <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-blue-500/30 flex items-center justify-center p-6">
+        <div className="relative min-h-screen bg-background text-foreground font-sans selection:bg-blue-500/30 flex items-center justify-center p-6 transition-colors duration-300">
 
             <GridBackground />
 
@@ -166,14 +166,14 @@ export default function LoginPage() {
                 className="relative z-10 w-full max-w-md"
             >
 
-                <SpotlightCard className="rounded-3xl p-8 md:p-10 shadow-2xl bg-[#0A0A0A] border border-white/10">
+                <SpotlightCard className="rounded-3xl p-8 md:p-10 shadow-2xl bg-card border border-border">
 
                     {/* Header */}
                     <div className="text-center mb-10">
-                        <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-                        <p className="text-slate-400 text-sm">
+                        <h1 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h1>
+                        <p className="text-muted-foreground text-sm">
                             Enter your credentials to access your <br />
-                            <span className="text-blue-400 font-medium">Rezumix Intelligence Dashboard</span>
+                            <span className="text-blue-600 dark:text-blue-400 font-medium">Rezumix Intelligence Dashboard</span>
                         </p>
                     </div>
 
@@ -182,7 +182,7 @@ export default function LoginPage() {
                         <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
-                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-400 text-sm"
+                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-600 dark:text-red-400 text-sm"
                         >
                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
                             {error}
@@ -194,36 +194,36 @@ export default function LoginPage() {
 
                         {/* Email Input */}
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Email</label>
+                            <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">Email</label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                <Mail className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onBlur={handleEmailBlur}
                                     placeholder="name@company.com"
-                                    className={`w-full bg-[#050505] border rounded-xl py-3 pl-12 pr-10 text-white placeholder-slate-600 focus:outline-none focus:ring-1 transition-all ${
+                                    className={`w-full bg-background border rounded-xl py-3 pl-12 pr-10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 transition-all ${
                                         emailTouched && !isEmailValid
                                             ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                             : emailTouched && isEmailValid
                                             ? "border-green-500/30 focus:border-green-500/50 focus:ring-green-500/50"
-                                            : "border-white/10 focus:border-blue-500/50 focus:ring-blue-500/50"
+                                            : "border-border focus:border-blue-500/50 focus:ring-blue-500/50"
                                     }`}
                                 />
                                 {emailTouched && (
                                     <div className="absolute right-4 top-3.5">
                                         {isEmailValid ? (
-                                            <CheckCircle2 className="w-5 h-5 text-green-400" />
+                                            <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
                                         ) : (
-                                            <AlertCircle className="w-5 h-5 text-red-400" />
+                                            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                                         )}
                                     </div>
                                 )}
                             </div>
                             {emailTouched && !isEmailValid && (
-                                <p className="text-xs text-red-400 ml-1 flex items-center gap-1.5 animate-fadeIn">
-                                    <span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />
+                                <p className="text-xs text-red-600 dark:text-red-400 ml-1 flex items-center gap-1.5 animate-fadeIn">
+                                    <span className="w-1 h-1 rounded-full bg-red-500 flex-shrink-0" />
                                     Enter a valid email address (e.g. name@example.com)
                                 </p>
                             )}
@@ -231,16 +231,16 @@ export default function LoginPage() {
 
                         {/* Password Input */}
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Password</label>
+                            <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">Password</label>
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                <Lock className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
                                     required
-                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+                                    className="w-full bg-background border border-border rounded-xl py-3 pl-12 pr-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
                                 />
                             </div>
                         </div>
@@ -249,7 +249,7 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading || !email || !password || (emailTouched && !isEmailValid)}
-                            className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 mt-6 shadow-lg shadow-white/5 disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:opacity-90 transition-colors flex items-center justify-center gap-2 mt-6 shadow-lg shadow-black/5 disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <>
@@ -266,10 +266,10 @@ export default function LoginPage() {
                     </form>
 
                     {/* Footer */}
-                    <div className="mt-8 text-center pt-6 border-t border-white/5">
-                        <p className="text-slate-400 text-sm">
+                    <div className="mt-8 text-center pt-6 border-t border-border">
+                        <p className="text-muted-foreground text-sm">
                             Don&apos;t have an account?{" "}
-                            <Link href="/register" className="text-white font-medium hover:text-blue-400 transition-colors">
+                            <Link href="/register" className="text-foreground font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                                 Create Account
                             </Link>
                         </p>

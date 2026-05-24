@@ -30,10 +30,10 @@ import axios from "axios";
 
 // 1. Reuse GridBackground (Blue/Purple Theme for Interview)
 const GridBackground = () => (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-blue-600/5 blur-[120px] rounded-full mix-blend-screen" />
-        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-purple-600/5 blur-[120px] rounded-full mix-blend-screen" />
+    <div className="fixed inset-0 z-0 pointer-events-none bg-background">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute top-0 left-0 w-full h-[60vh] bg-primary/5 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-secondary/20 blur-[120px] rounded-full mix-blend-screen" />
     </div>
 );
 
@@ -180,15 +180,15 @@ const InterviewSection = ({ params }) => {
 
     if (status === "loading" || isLoading) {
         return (
-            <div className="h-screen w-full flex flex-col items-center justify-center bg-[#050505] text-slate-400">
-                <Loader2 className="w-10 h-10 animate-spin text-blue-500 mb-4" />
+            <div className="h-screen w-full flex flex-col items-center justify-center bg-background text-muted-foreground">
+                <Loader2 className="w-10 h-10 animate-spin text-blue-600 dark:text-blue-400 mb-4" />
                 <p>Preparing interview session...</p>
             </div>
         );
     }
 
     return (
-        <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+        <div className="relative min-h-screen bg-background text-foreground font-sans selection:bg-blue-500/30 overflow-x-hidden transition-colors duration-300">
             <GridBackground />
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
@@ -198,14 +198,14 @@ const InterviewSection = ({ params }) => {
                     <Button
                         variant="ghost"
                         onClick={returnToInterviews}
-                        className="text-slate-400 hover:text-white hover:bg-white/5 gap-2 pl-0"
+                        className="text-muted-foreground hover:text-foreground hover:bg-muted gap-2 pl-0"
                     >
                         <ArrowLeft className="h-4 w-4" /> Exit Session
                     </Button>
                     {interviewDetails && (
                         <div className="text-right">
-                            <h2 className="text-sm font-bold text-white">{interviewDetails.jobRole}</h2>
-                            <p className="text-xs text-slate-500">{interviewDetails.experience} Years • {geminiOutput.length} Questions</p>
+                            <h2 className="text-sm font-bold text-foreground">{interviewDetails.jobRole}</h2>
+                            <p className="text-xs text-muted-foreground">{interviewDetails.experience} Years • {geminiOutput.length} Questions</p>
                         </div>
                     )}
                 </div>
@@ -217,20 +217,20 @@ const InterviewSection = ({ params }) => {
                     <div className="space-y-6">
 
                         {/* 1. Camera Feed Card */}
-                        <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-4 shadow-xl">
+                        <div className="bg-card border border-border rounded-2xl p-4 shadow-xl">
                             <div className="flex items-center justify-between mb-3 px-1">
-                                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-                                    <Camera className="w-4 h-4 text-blue-400" /> Video Feed
+                                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                                    <Camera className="w-4 h-4 text-blue-600 dark:text-blue-400" /> Video Feed
                                 </h3>
-                                {isVideoOn && <span className="text-xs text-red-400 flex items-center gap-1 animate-pulse">● Live</span>}
+                                {isVideoOn && <span className="text-xs text-red-600 dark:text-red-400 flex items-center gap-1 animate-pulse">● Live</span>}
                             </div>
 
-                            <div className="relative w-full aspect-video bg-[#111] rounded-xl overflow-hidden border border-white/5 mb-4 group">
+                            <div className="relative w-full aspect-video bg-muted rounded-xl overflow-hidden border border-border mb-4 group">
                                 {isVideoOn ? (
                                     <WebCam ref={webcamRef} className="w-full h-full object-cover transform scale-x-[-1]" />
                                 ) : (
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 gap-2">
-                                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center">
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2">
+                                        <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
                                             <VideoOff className="w-8 h-8 opacity-50" />
                                         </div>
                                         <p className="text-xs">Camera is turned off</p>
@@ -241,13 +241,13 @@ const InterviewSection = ({ params }) => {
                             <div className="grid grid-cols-2 gap-3">
                                 <Button
                                     onClick={toggleWebcam}
-                                    className={`w-full ${isVideoOn ? "bg-red-500/10 text-red-400 hover:bg-red-500/20" : "bg-blue-600 hover:bg-blue-500 text-white"} border border-transparent`}
+                                    className={`w-full ${isVideoOn ? "bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20" : "bg-blue-600 hover:bg-blue-500 text-white"} border border-transparent`}
                                 >
                                     {isVideoOn ? <><VideoOff className="w-4 h-4 mr-2" /> Stop Cam</> : <><Video className="w-4 h-4 mr-2" /> Start Cam</>}
                                 </Button>
                                 <Button
                                     onClick={toggleSpeechRecognition}
-                                    className={`w-full ${listening ? "bg-red-500/10 text-red-400 hover:bg-red-500/20" : "bg-white text-black hover:bg-slate-200"}`}
+                                    className={`w-full ${listening ? "bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20" : "bg-foreground text-background hover:opacity-90"}`}
                                 >
                                     {listening ? <><Pause className="w-4 h-4 mr-2" /> Stop Rec</> : <><Mic className="w-4 h-4 mr-2" /> Record</>}
                                 </Button>
@@ -255,12 +255,12 @@ const InterviewSection = ({ params }) => {
                         </div>
 
                         {/* 2. Answer Input Area */}
-                        <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 shadow-xl">
+                        <div className="bg-card border border-border rounded-2xl p-6 shadow-xl">
                             <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-                                    <MessageSquare className="w-4 h-4 text-purple-400" /> Your Answer
+                                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                                    <MessageSquare className="w-4 h-4 text-purple-600 dark:text-purple-400" /> Your Answer
                                 </h3>
-                                {listening && <span className="text-xs text-green-400 font-mono">Listening...</span>}
+                                {listening && <span className="text-xs text-green-600 dark:text-green-400 font-mono">Listening...</span>}
                             </div>
 
                             <div className="relative">
@@ -268,13 +268,13 @@ const InterviewSection = ({ params }) => {
                                     value={userAnswer}
                                     onChange={(e) => setUserAnswer(e.target.value)}
                                     placeholder="Click 'Record' to speak or type your answer here..."
-                                    className="w-full h-40 bg-[#111] border border-white/10 rounded-xl p-4 text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 resize-none text-sm leading-relaxed"
+                                    className="w-full h-40 bg-background border border-border rounded-xl p-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 resize-none text-sm leading-relaxed"
                                 />
                                 <Button
                                     size="sm"
                                     variant="ghost"
                                     onClick={resetTranscript}
-                                    className="absolute bottom-3 right-3 text-slate-500 hover:text-white hover:bg-white/10 h-8 w-8 p-0"
+                                    className="absolute bottom-3 right-3 text-muted-foreground hover:text-foreground hover:bg-muted h-8 w-8 p-0"
                                     title="Clear"
                                 >
                                     <RotateCcw className="w-4 h-4" />
@@ -301,9 +301,9 @@ const InterviewSection = ({ params }) => {
                     <div className="space-y-6">
 
                         {/* 3. Question Card */}
-                        <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                        <div className="bg-card border border-border rounded-2xl p-6 shadow-xl relative overflow-hidden">
                             {/* Progress Bar */}
-                            <div className="absolute top-0 left-0 w-full h-1 bg-white/5">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-muted">
                                 <div
                                     className="h-full bg-blue-500 transition-all duration-500"
                                     style={{ width: `${((currentQuestionIndex + 1) / geminiOutput.length) * 100}%` }}
@@ -311,7 +311,7 @@ const InterviewSection = ({ params }) => {
                             </div>
 
                             <div className="flex justify-between items-center mb-6 mt-2">
-                                <Badge variant="outline" className="border-blue-500/30 text-blue-400 bg-blue-500/10">
+                                <Badge variant="outline" className="border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/10">
                                     Question {currentQuestionIndex + 1} of {geminiOutput.length}
                                 </Badge>
                                 <div className="flex gap-2">
@@ -320,7 +320,7 @@ const InterviewSection = ({ params }) => {
                                         variant="outline"
                                         onClick={prevQuestion}
                                         disabled={currentQuestionIndex === 0}
-                                        className="h-8 w-8 border-white/10 bg-transparent hover:bg-white/5 text-slate-400 hover:text-white"
+                                        className="h-8 w-8 border-border bg-transparent hover:bg-muted text-muted-foreground hover:text-foreground"
                                     >
                                         <ChevronLeft className="h-4 w-4" />
                                     </Button>
@@ -329,7 +329,7 @@ const InterviewSection = ({ params }) => {
                                         variant="outline"
                                         onClick={nextQuestion}
                                         disabled={currentQuestionIndex === geminiOutput.length - 1}
-                                        className="h-8 w-8 border-white/10 bg-transparent hover:bg-white/5 text-slate-400 hover:text-white"
+                                        className="h-8 w-8 border-border bg-transparent hover:bg-muted text-muted-foreground hover:text-foreground"
                                     >
                                         <ChevronRight className="h-4 w-4" />
                                     </Button>
@@ -337,7 +337,7 @@ const InterviewSection = ({ params }) => {
                             </div>
 
                             <div className="min-h-[100px] flex items-center justify-center text-center">
-                                <h2 className="text-xl md:text-2xl font-bold text-white leading-relaxed">
+                                <h2 className="text-xl md:text-2xl font-bold text-foreground leading-relaxed">
                                     {geminiOutput[currentQuestionIndex]?.question || "Loading question..."}
                                 </h2>
                             </div>
@@ -346,7 +346,7 @@ const InterviewSection = ({ params }) => {
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="text-xs text-slate-500 hover:text-white"
+                                    className="text-xs text-muted-foreground hover:text-foreground"
                                     onClick={() => setShowAllQuestions(!showAllQuestions)}
                                 >
                                     {showAllQuestions ? "Hide Question List" : "View All Questions"}
@@ -355,7 +355,7 @@ const InterviewSection = ({ params }) => {
 
                             {/* Question List Dropdown */}
                             {showAllQuestions && (
-                                <div className="mt-4 p-4 bg-[#111] rounded-xl border border-white/5 max-h-48 overflow-y-auto custom-scrollbar">
+                                <div className="mt-4 p-4 bg-muted rounded-xl border border-border max-h-48 overflow-y-auto custom-scrollbar">
                                     {geminiOutput.map((q, idx) => (
                                         <div
                                             key={idx}
@@ -365,7 +365,7 @@ const InterviewSection = ({ params }) => {
                                                 setAnswerFeedback(null);
                                                 setUserAnswer("");
                                             }}
-                                            className={`p-2 text-sm cursor-pointer rounded-lg mb-1 truncate ${currentQuestionIndex === idx ? "bg-blue-500/20 text-blue-300" : "text-slate-400 hover:bg-white/5 hover:text-white"}`}
+                                            className={`p-2 text-sm cursor-pointer rounded-lg mb-1 truncate ${currentQuestionIndex === idx ? "bg-blue-500/20 text-blue-600 dark:text-blue-300" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}
                                         >
                                             <span className="font-mono mr-2 text-xs opacity-50">Q{idx + 1}.</span>
                                             {q.question}
@@ -377,17 +377,17 @@ const InterviewSection = ({ params }) => {
 
                         {/* 4. Feedback Card */}
                         {answerFeedback && (
-                            <div className="bg-[#0A0A0A] border border-green-500/20 rounded-2xl p-6 shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/5">
-                                    <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
+                            <div className="bg-card border border-green-500/20 rounded-2xl p-6 shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+                                    <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-600 dark:text-green-400">
                                         <CheckCircle className="w-5 h-5" />
                                     </div>
-                                    <h3 className="font-bold text-white">AI Feedback</h3>
+                                    <h3 className="font-bold text-foreground">AI Feedback</h3>
                                 </div>
 
                                 <div className="space-y-4">
                                     <div className="bg-green-500/5 border border-green-500/10 rounded-xl p-4">
-                                        <p className="text-sm text-slate-300 leading-relaxed">
+                                        <p className="text-sm text-foreground leading-relaxed">
                                             {answerFeedback.overallFeedback}
                                         </p>
                                     </div>
@@ -398,17 +398,17 @@ const InterviewSection = ({ params }) => {
                                             { label: "Clarity", val: answerFeedback.clarity },
                                             { label: "Relevance", val: answerFeedback.relevance }
                                         ].map((stat, i) => (
-                                            <div key={i} className="bg-[#111] rounded-lg p-3 text-center border border-white/5">
-                                                <div className="text-xs text-slate-500 mb-1">{stat.label}</div>
-                                                <div className="text-sm font-bold text-white">{stat.val}</div>
+                                            <div key={i} className="bg-muted rounded-lg p-3 text-center border border-border">
+                                                <div className="text-xs text-muted-foreground mb-1">{stat.label}</div>
+                                                <div className="text-sm font-bold text-foreground">{stat.val}</div>
                                             </div>
                                         ))}
                                     </div>
 
                                     {answerFeedback.areasForImprovement?.length > 0 && (
                                         <div className="bg-red-500/5 border border-red-500/10 rounded-xl p-4">
-                                            <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">To Improve</h4>
-                                            <ul className="text-sm text-slate-400 space-y-1 list-disc pl-4">
+                                            <h4 className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-2">To Improve</h4>
+                                            <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-4">
                                                 {answerFeedback.areasForImprovement.map((tip, idx) => (
                                                     <li key={idx}>{tip}</li>
                                                 ))}

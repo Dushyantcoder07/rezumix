@@ -18,7 +18,7 @@ function SpotlightCard({ children, className = "" }) {
 
   return (
     <div
-      className={`relative border border-white/10 bg-[#0A0A0A] overflow-hidden group ${className}`}
+    className={`relative border border-border bg-card/80 overflow-hidden group ${className}`}
       onMouseMove={handleMouseMove}
     >
       <motion.div
@@ -40,10 +40,10 @@ function SpotlightCard({ children, className = "" }) {
 
 // 2. Background Component
 const GridBackground = () => (
-  <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
-    <div className="absolute top-0 left-0 w-full h-[60vh] bg-blue-600/5 blur-[120px] rounded-full mix-blend-screen" />
-    <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-purple-600/5 blur-[120px] rounded-full mix-blend-screen" />
+    <div className="fixed inset-0 z-0 pointer-events-none bg-background">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute top-0 left-0 w-full h-[60vh] bg-primary/5 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-secondary/20 blur-[120px] rounded-full mix-blend-screen" />
   </div>
 );
 
@@ -201,7 +201,7 @@ export default function VerifyOTP() {
     };
 
     return (
-        <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-blue-500/30 flex items-center justify-center p-6">
+        <div className="relative min-h-screen bg-background text-foreground font-sans selection:bg-blue-500/30 flex items-center justify-center p-6 transition-colors duration-300">
             
             <GridBackground />
 
@@ -211,15 +211,15 @@ export default function VerifyOTP() {
                 transition={{ duration: 0.5 }}
                 className="relative z-10 w-full max-w-md"
             >
-                <SpotlightCard className="rounded-3xl p-8 md:p-10 shadow-2xl">
+                <SpotlightCard className="rounded-3xl p-8 md:p-10 shadow-2xl bg-card border border-border">
                     
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-4">
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 mb-4">
                             <ShieldCheck className="w-6 h-6" />
                         </div>
-                        <h1 className="text-3xl font-bold text-white mb-2">Verify Account</h1>
-                        <p className="text-slate-400 text-sm">
+                        <h1 className="text-3xl font-bold text-foreground mb-2">Verify Account</h1>
+                        <p className="text-muted-foreground text-sm">
                             Enter the OTP sent to your email to verify your identity.
                         </p>
                     </div>
@@ -229,7 +229,7 @@ export default function VerifyOTP() {
                         <motion.div 
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
-                            className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center gap-3 text-green-400 text-sm"
+                            className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center gap-3 text-green-600 dark:text-green-400 text-sm"
                         >
                             <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
                             {success}
@@ -240,7 +240,7 @@ export default function VerifyOTP() {
                         <motion.div 
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
-                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-400 text-sm"
+                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-600 dark:text-red-400 text-sm"
                         >
                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
                             {error}
@@ -251,24 +251,24 @@ export default function VerifyOTP() {
                     <form onSubmit={handleVerify} className="space-y-5">
                         
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Email Address</label>
+                            <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">Email Address</label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                <Mail className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="name@example.com"
                                     required
-                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+                                    className="w-full bg-background border border-border rounded-xl py-3 pl-12 pr-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">One-Time Password</label>
+                            <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">One-Time Password</label>
                             <div className="relative group">
-                                <KeyRound className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                <KeyRound className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                 <input
                                     type="text"
                                     value={otp}
@@ -280,7 +280,7 @@ export default function VerifyOTP() {
                                     placeholder="Enter 6-digit code"
                                     required
                                     maxLength={6}
-                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all tracking-widest"
+                                    className="w-full bg-background border border-border rounded-xl py-3 pl-12 pr-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all tracking-widest"
                                 />
                             </div>
                         </div>
@@ -289,7 +289,7 @@ export default function VerifyOTP() {
                         <button
                             type="submit"
                             disabled={loading || !email || !otp || otp.length < 6}
-                            className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 mt-6 shadow-lg shadow-white/5 disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:opacity-90 transition-colors flex items-center justify-center gap-2 mt-6 shadow-lg shadow-black/5 disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <>
@@ -306,23 +306,23 @@ export default function VerifyOTP() {
                     </form>
 
                     {/* Resend OTP Section */}
-                    <div className="mt-6 pt-6 border-t border-white/5">
+                    <div className="mt-6 pt-6 border-t border-border">
                         <div className="flex items-center justify-between">
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-muted-foreground">
                                 Didn&apos;t receive the code?
                             </p>
 
                             {cooldown > 0 ? (
-                                <div className="flex items-center gap-2 text-xs text-slate-500">
-                                    <Timer className="w-3.5 h-3.5 text-blue-400" />
-                                    <span>Resend in <span className="text-blue-400 font-mono font-medium">{formatTime(cooldown)}</span></span>
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                    <Timer className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                                    <span>Resend in <span className="text-blue-600 dark:text-blue-400 font-mono font-medium">{formatTime(cooldown)}</span></span>
                                 </div>
                             ) : (
                                 <button
                                     type="button"
                                     onClick={handleResendOTP}
                                     disabled={resending || !email}
-                                    className="flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed font-medium"
+                                    className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed font-medium"
                                 >
                                     {resending ? (
                                         <>
@@ -342,7 +342,7 @@ export default function VerifyOTP() {
 
                     {/* Footer tip */}
                     <div className="mt-4 text-center">
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted-foreground">
                             Check your spam folder if you don&apos;t see the email.
                         </p>
                     </div>

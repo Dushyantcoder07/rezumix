@@ -36,7 +36,7 @@ function SpotlightCard({ children, className = "" }) {
 
     return (
         <div
-            className={`relative border border-white/10 bg-neutral-900/50 overflow-hidden group ${className}`}
+            className={`relative border border-border bg-card/80 overflow-hidden group ${className}`}
             onMouseMove={handleMouseMove}
         >
             <motion.div
@@ -58,10 +58,10 @@ function SpotlightCard({ children, className = "" }) {
 
 // 2. Background Pattern
 const GridBackground = () => (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
-        <div className="absolute top-0 left-0 w-full h-[60vh] bg-blue-600/5 blur-[120px] rounded-full mix-blend-screen" />
-        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-purple-600/5 blur-[120px] rounded-full mix-blend-screen" />
+    <div className="fixed inset-0 z-0 pointer-events-none bg-background">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute top-0 left-0 w-full h-[60vh] bg-primary/5 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-full h-[60vh] bg-secondary/20 blur-[120px] rounded-full mix-blend-screen" />
     </div>
 );
 
@@ -242,7 +242,7 @@ export default function Register() {
     ];
 
     return (
-        <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+        <div className="relative min-h-screen bg-background text-foreground font-sans selection:bg-blue-500/30 overflow-x-hidden transition-colors duration-300">
 
             <GridBackground />
 
@@ -250,7 +250,7 @@ export default function Register() {
 
                 {/* Back Link */}
                 <div className="max-w-6xl mx-auto w-full mb-8">
-                    <Link href="/" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors group">
+                    <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group">
                         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                         Back to Homepage
                     </Link>
@@ -267,12 +267,12 @@ export default function Register() {
                             <span>Join the AI Revolution</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6 leading-tight">
                             Accelerate your career <br />
                             with <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Intelligence.</span>
                         </h1>
 
-                        <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-md">
+                        <p className="text-lg text-muted-foreground mb-10 leading-relaxed max-w-md">
                             Join thousands of professionals using Rezumix to analyze resumes, practice interviews, and land top-tier roles.
                         </p>
 
@@ -281,22 +281,22 @@ export default function Register() {
                             {features.map((feature, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center gap-3 text-slate-300"
+                                    className="flex items-center gap-3 text-foreground"
                                 >
-                                    <CheckCircle2 className="w-5 h-5 text-blue-500/80 flex-shrink-0" />
+                                    <CheckCircle2 className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                                     <span>{feature}</span>
                                 </div>
                             ))}
                         </div>
 
                         {/* Social Proof */}
-                        <div className="flex flex-wrap gap-6 pt-8 border-t border-white/5">
-                            <div className="flex items-center gap-2 text-sm text-slate-400">
-                                <ShieldCheck className="w-4 h-4 text-green-400" />
+                        <div className="flex flex-wrap gap-6 pt-8 border-t border-border">
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <ShieldCheck className="w-4 h-4 text-green-600 dark:text-green-400" />
                                 <span>50,000+ Resumes</span>
                             </div>
-                            <div className="flex items-center gap-2 text-sm text-slate-400">
-                                <Star className="w-4 h-4 text-yellow-400" />
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Star className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
                                 <span>4.9/5 Rating</span>
                             </div>
                         </div>
@@ -304,49 +304,49 @@ export default function Register() {
 
                     {/* RIGHT SIDE: Registration Form */}
                     <div className={`transition-all duration-1000 delay-100 ease-out ${loaded ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}>
-                        <SpotlightCard className="rounded-3xl p-8 md:p-10 shadow-2xl bg-[#0A0A0A] border border-white/10">
+                        <SpotlightCard className="rounded-3xl p-8 md:p-10 shadow-2xl bg-card border border-border">
 
                             <div className="text-center mb-8">
-                                <h2 className="text-2xl font-bold text-white mb-2">Create Account</h2>
-                                <p className="text-slate-400 text-sm">Start your free analysis today.</p>
+                                <h2 className="text-2xl font-bold text-foreground mb-2">Create Account</h2>
+                                <p className="text-muted-foreground text-sm">Start your free analysis today.</p>
                             </div>
 
                             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
 
                                 {/* Full Name */}
                                 <div className="space-y-2">
-                                    <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Full Name</label>
+                                    <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">Full Name</label>
                                     <div className="relative group">
-                                        <User className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                        <User className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="text"
                                             value={fullName}
                                             onChange={(e) => setFullName(e.target.value)}
                                             onBlur={() => handleBlur("fullName")}
                                             placeholder="John Doe"
-                                            className={`w-full bg-[#050505] border rounded-xl py-3 pl-12 pr-10 text-white placeholder-slate-600 focus:outline-none focus:ring-1 transition-all ${
+                                            className={`w-full bg-background border rounded-xl py-3 pl-12 pr-10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 transition-all ${
                                                 touched.fullName && !validation.fullName.valid
                                                     ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                                     : touched.fullName && validation.fullName.valid
                                                     ? "border-green-500/30 focus:border-green-500/50 focus:ring-green-500/50"
-                                                    : "border-white/10 focus:border-blue-500/50 focus:ring-blue-500/50"
+                                                    : "border-border focus:border-blue-500/50 focus:ring-blue-500/50"
                                             }`}
                                         />
                                         {/* Real-time indicator icon */}
                                         {touched.fullName && (
                                             <div className="absolute right-4 top-3.5">
                                                 {validation.fullName.valid ? (
-                                                    <CheckCircle2 className="w-5 h-5 text-green-400" />
+                                                    <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
                                                 ) : (
-                                                    <AlertCircle className="w-5 h-5 text-red-400" />
+                                                    <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                                                 )}
                                             </div>
                                         )}
                                     </div>
                                     {/* Inline error message */}
                                     {touched.fullName && validation.fullName.message && (
-                                        <p className="text-xs text-red-400 ml-1 flex items-center gap-1.5">
-                                            <span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />
+                                        <p className="text-xs text-red-600 dark:text-red-400 ml-1 flex items-center gap-1.5">
+                                            <span className="w-1 h-1 rounded-full bg-red-500 flex-shrink-0" />
                                             {validation.fullName.message}
                                         </p>
                                     )}
@@ -354,36 +354,36 @@ export default function Register() {
 
                                 {/* Email */}
                                 <div className="space-y-2">
-                                    <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Email</label>
+                                    <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">Email</label>
                                     <div className="relative group">
-                                        <Mail className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                        <Mail className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             onBlur={() => handleBlur("email")}
                                             placeholder="name@company.com"
-                                            className={`w-full bg-[#050505] border rounded-xl py-3 pl-12 pr-10 text-white placeholder-slate-600 focus:outline-none focus:ring-1 transition-all ${
+                                            className={`w-full bg-background border rounded-xl py-3 pl-12 pr-10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 transition-all ${
                                                 touched.email && !validation.email.valid
                                                     ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                                     : touched.email && validation.email.valid
                                                     ? "border-green-500/30 focus:border-green-500/50 focus:ring-green-500/50"
-                                                    : "border-white/10 focus:border-blue-500/50 focus:ring-blue-500/50"
+                                                    : "border-border focus:border-blue-500/50 focus:ring-blue-500/50"
                                             }`}
                                         />
                                         {touched.email && (
                                             <div className="absolute right-4 top-3.5">
                                                 {validation.email.valid ? (
-                                                    <CheckCircle2 className="w-5 h-5 text-green-400" />
+                                                    <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
                                                 ) : (
-                                                    <AlertCircle className="w-5 h-5 text-red-400" />
+                                                    <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                                                 )}
                                             </div>
                                         )}
                                     </div>
                                     {touched.email && validation.email.message && (
-                                        <p className="text-xs text-red-400 ml-1 flex items-center gap-1.5">
-                                            <span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />
+                                        <p className="text-xs text-red-600 dark:text-red-400 ml-1 flex items-center gap-1.5">
+                                            <span className="w-1 h-1 rounded-full bg-red-500 flex-shrink-0" />
                                             {validation.email.message}
                                         </p>
                                     )}
@@ -391,29 +391,29 @@ export default function Register() {
 
                                 {/* Password */}
                                 <div className="space-y-2">
-                                    <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Password</label>
+                                    <label className="text-xs font-medium text-muted-foreground ml-1 uppercase tracking-wider">Password</label>
                                     <div className="relative group">
-                                        <Lock className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                        <Lock className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             onBlur={() => handleBlur("password")}
                                             placeholder="Create a secure password"
-                                            className={`w-full bg-[#050505] border rounded-xl py-3 pl-12 pr-10 text-white placeholder-slate-600 focus:outline-none focus:ring-1 transition-all ${
+                                            className={`w-full bg-background border rounded-xl py-3 pl-12 pr-10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 transition-all ${
                                                 touched.password && !validation.password.valid
                                                     ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                                     : touched.password && validation.password.valid
                                                     ? "border-green-500/30 focus:border-green-500/50 focus:ring-green-500/50"
-                                                    : "border-white/10 focus:border-blue-500/50 focus:ring-blue-500/50"
+                                                    : "border-border focus:border-blue-500/50 focus:ring-blue-500/50"
                                             }`}
                                         />
                                         {touched.password && (
                                             <div className="absolute right-4 top-3.5">
                                                 {validation.password.valid ? (
-                                                    <CheckCircle2 className="w-5 h-5 text-green-400" />
+                                                    <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
                                                 ) : (
-                                                    <AlertCircle className="w-5 h-5 text-red-400" />
+                                                    <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                                                 )}
                                             </div>
                                         )}
@@ -439,7 +439,7 @@ export default function Register() {
                                 <button
                                     type="submit"
                                     disabled={loading || !validation.isFormValid}
-                                    className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 mt-6 shadow-lg shadow-white/5 disabled:opacity-40 disabled:cursor-not-allowed"
+                                    className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:opacity-90 transition-colors flex items-center justify-center gap-2 mt-6 shadow-lg shadow-black/5 disabled:opacity-40 disabled:cursor-not-allowed"
                                 >
                                     {loading ? (
                                         <>
@@ -456,10 +456,10 @@ export default function Register() {
                             </form>
 
                             {/* Footer */}
-                            <div className="mt-8 text-center pt-6 border-t border-white/5">
-                                <p className="text-slate-400 text-sm">
+                            <div className="mt-8 text-center pt-6 border-t border-border">
+                                <p className="text-muted-foreground text-sm">
                                     Already have an account?{" "}
-                                    <Link href="/login" className="text-white font-medium hover:text-blue-400 transition-colors">
+                                    <Link href="/login" className="text-foreground font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                                         Sign In
                                     </Link>
                                 </p>

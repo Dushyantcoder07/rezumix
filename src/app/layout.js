@@ -42,8 +42,27 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var storageKey = "rezumix-theme";
+                  var storedTheme = localStorage.getItem(storageKey);
+                  var theme = storedTheme === "light" || storedTheme === "dark"
+                    ? storedTheme
+                    : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+                  var root = document.documentElement;
+                  root.classList.toggle("dark", theme === "dark");
+                  root.dataset.theme = theme;
+                  root.style.colorScheme = theme;
+                } catch (error) {}
+              })();
+            `,
+          }}
+        />
         <title>
           Rezumix – AI Resume Analyzer, Career Recommendation, Mock Interview
           Tool & Skill Gap Identifier
@@ -118,11 +137,11 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-gradient-to-br from-gray-950 to-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground transition-colors duration-300 antialiased`}
       >
         <SessionWrapper>
           <Navbar />
-          <main className="min-h-screen">
+          <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
             {children}
           </main>
           <Footer />

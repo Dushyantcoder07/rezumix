@@ -71,20 +71,20 @@ const DashboardUI = () => {
         <div className="w-full">
             {/* Header Section */}
             <div className="mb-10 text-center md:text-left">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
                     Your Career Intelligence Hub
                 </h2>
-                <p className="text-slate-400 max-w-2xl">
+                <p className="text-muted-foreground max-w-2xl">
                     Select a tool below to optimize your professional profile.
                 </p>
 
                 {/* Quick Stats Strip */}
                 <div className="flex flex-wrap gap-4 mt-6 justify-center md:justify-start">
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-xs text-slate-300">
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border text-xs text-muted-foreground">
                         <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
                         AI System Online
                     </div>
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-xs text-slate-300">
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border text-xs text-muted-foreground">
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
                         All Tools Unlocked
                     </div>
@@ -98,8 +98,8 @@ const DashboardUI = () => {
                         key={index}
                         href={feature.href}
                         onMouseEnter={() => setActiveFeature(index)}
-                        className={`relative group p-6 rounded-2xl border bg-[#0A0A0A] transition-all duration-300 hover:scale-[1.02] cursor-pointer
-                            ${activeFeature === index ? feature.borderColor : 'border-white/5'}
+                        className={`relative group p-6 rounded-2xl border bg-card transition-all duration-300 hover:scale-[1.02] cursor-pointer
+                            ${activeFeature === index ? feature.borderColor : 'border-border'}
                         `}
                     >
                         {/* Background Gradient */}
@@ -107,21 +107,21 @@ const DashboardUI = () => {
 
                         <div className="relative z-10 flex flex-col h-full">
                             <div className="flex justify-between items-start mb-4">
-                                <div className="p-3 rounded-xl bg-white/5 border border-white/5 group-hover:bg-white/10 transition-colors">
+                                <div className="p-3 rounded-xl bg-muted/50 border border-border group-hover:bg-muted transition-colors">
                                     {feature.icon}
                                 </div>
-                                <span className={`text-xs font-medium px-2 py-1 rounded-full bg-white/5 border border-white/5 ${feature.color}`}>
+                                <span className={`text-xs font-medium px-2 py-1 rounded-full bg-muted/50 border border-border ${feature.color}`}>
                                     {feature.stats}
                                 </span>
                             </div>
 
-                            <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                            <p className="text-sm text-slate-400 mb-6 flex-grow leading-relaxed">
+                            <h3 className="text-lg font-bold text-foreground mb-2">{feature.title}</h3>
+                            <p className="text-sm text-muted-foreground mb-6 flex-grow leading-relaxed">
                                 {feature.description}
                             </p>
 
                             {/* Active Indicator Line */}
-                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                            <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
                                 <div
                                     className={`h-full ${feature.color.replace('text-', 'bg-')} transition-all duration-500 ease-out`}
                                     style={{ width: activeFeature === index ? '100%' : '0%' }}
