@@ -13,11 +13,7 @@ import {
     Check,
     X
 } from 'lucide-react';
-import {
-    toast,
-    ToastContainer
-} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'sonner';
 import { apiClient } from "@/lib/api-client";
 import { PASSWORD_RULES, getPasswordStrength } from "@/lib/validation";
 
@@ -191,11 +187,7 @@ const Profile = () => {
         setTouched({ currentPassword: true, newPassword: true, confirmPassword: true });
 
         if (!validation.isFormValid) {
-            toast.error('Please correct the validation errors first', {
-                position: "top-right",
-                autoClose: 3000,
-                theme: "dark",
-            });
+            toast.error('Please correct the validation errors first');
             return;
         }
 
@@ -203,11 +195,7 @@ const Profile = () => {
         try {
             await apiClient.updateProfile(passwordChange);
             
-            toast.success('Password Changed Successfully', {
-                position: "top-right",
-                autoClose: 3000,
-                theme: "dark",
-            });
+            toast.success('Password Changed Successfully');
 
             setPasswordChange({
                 currentPassword: '',
@@ -227,11 +215,7 @@ const Profile = () => {
             // Extract structured error from backend validation
             const backendErrorMsg = error.response?.data?.errors?.[0]?.messages?.[0] || error.response?.data?.message || 'Failed to change password';
             
-            toast.error(backendErrorMsg, {
-                position: "top-right",
-                autoClose: 3000,
-                theme: "dark",
-            });
+            toast.error(backendErrorMsg);
         } finally {
             setLoading(false);
         }
@@ -241,7 +225,6 @@ const Profile = () => {
 
     return (
         <div className="relative min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-blue-500/30 overflow-x-hidden">
-            <ToastContainer />
             <GridBackground />
 
             <div className="relative z-10 max-w-5xl mx-auto px-6 py-12">
