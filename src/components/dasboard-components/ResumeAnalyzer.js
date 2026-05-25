@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { marked } from "marked";
 import { useThemeMode } from "@/hooks/use-theme-mode";
 import ThemeToggle from "@/components/ThemeToggle";
+import KeywordAnalysis from "@/components/dasboard-components/KeywordAnalysis";
 
 export default function ResumeAnalyzer() {
     const [file, setFile] = useState(null);
@@ -13,6 +14,7 @@ export default function ResumeAnalyzer() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [result, setResult] = useState("");
+    const [keywordData, setKeywordData] = useState(null);
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState({ hero: false, upload: false, results: false });
     const { isLight } = useThemeMode();
@@ -35,7 +37,6 @@ export default function ResumeAnalyzer() {
         setTimeout(() => setIsVisible({ hero: true, upload: true, results: false }), 300);
     }, []);
 
-    // ✅ PDF aur DOCX dono accept karo
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (!selectedFile) return;
@@ -59,6 +60,7 @@ export default function ResumeAnalyzer() {
         setLoading(true);
         setResult("");
         setError("");
+        setKeywordData(null);
 
         try {
             const userEmail = session?.user?.email;
@@ -123,7 +125,11 @@ export default function ResumeAnalyzer() {
                     if (line.startsWith("data: ")) {
                         try {
                             const data = JSON.parse(line.slice(6));
-                            setResult((prev) => prev + data.content);
+                            if (data.content !== undefined) {
+                                setResult((prev) => prev + data.content);
+                            } else if (data.keyword_data !== undefined) {
+                                setKeywordData(data.keyword_data);
+                            }
                         } catch (e) { console.error("Parse error:", e); }
                     }
                 }
@@ -169,7 +175,6 @@ export default function ResumeAnalyzer() {
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     {!file ? (
                                         <div className="relative group cursor-pointer">
-                                            {/* ✅ PDF aur DOCX dono accept */}
                                             <input type="file" accept=".docx,.pdf" onChange={handleFileChange} className="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer" />
                                             <div className={`border-2 border-dashed rounded-2xl h-64 flex flex-col items-center justify-center transition-all group-hover:bg-emerald-500/5 ${isLight ? "border-slate-200 bg-slate-50 group-hover:border-emerald-400" : "border-gray-700 group-hover:border-emerald-500"}`}>
                                                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 text-emerald-500 group-hover:scale-110 transition-transform ${isLight ? "bg-white border border-slate-200" : "bg-gray-800"}`}>
@@ -178,6 +183,8 @@ export default function ResumeAnalyzer() {
                                                 <h3 className={`text-xl font-semibold mb-2 ${isLight ? "text-slate-950" : "text-white"}`}>Drop your resume here</h3>
                                                 {/* ✅ Updated text */}
                                                 <p className={isLight ? "text-slate-500" : "text-gray-500"}>Supports .docx and .pdf files</p>
+                                                <h3 className="text-xl font-semibold text-white mb-2">Drop your resume here</h3>
+                                                <p className="text-gray-500">Supports .docx and .pdf files</p>
                                             </div>
                                         </div>
                                     ) : (
@@ -194,6 +201,7 @@ export default function ResumeAnalyzer() {
                                                 </div>
                                             </div>
                                             <button type="button" onClick={() => { setFile(null); setFileName(""); setResult(""); }} className={`p-2 rounded-lg transition-colors ${isLight ? "text-slate-400 hover:bg-slate-100 hover:text-slate-950" : "text-gray-400 hover:bg-gray-800 hover:text-white"}`}>
+                                            <button type="button" onClick={() => { setFile(null); setFileName(""); setResult(""); setKeywordData(null); }} className="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white">
                                                 <X size={24} />
                                             </button>
                                         </div>
@@ -221,9 +229,9 @@ export default function ResumeAnalyzer() {
                     </div>
                 </section>
 
-                {/* Results Section */}
+                {/* Main Analysis Results */}
                 {result && (
-                    <section className="px-4 sm:px-6 lg:px-8 pb-16">
+                    <section className="px-4 sm:px-6 lg:px-8 pb-8">
                         <div className="max-w-5xl mx-auto">
                             <div className={`transition-all duration-1000 ease-out ${isVisible.results ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                                 <div className={`relative p-8 rounded-3xl shadow-2xl ${isLight ? "bg-white border border-slate-200" : "bg-[#0A0A0A] border border-emerald-500/20"}`}>
@@ -256,6 +264,15 @@ export default function ResumeAnalyzer() {
                                     />
                                 </div>
                             </div>
+                        </div>
+                    </section>
+                )}
+
+                {/* Keyword Analysis Section — renders after stream completes */}
+                {keywordData && (
+                    <section className="px-4 sm:px-6 lg:px-8 pb-16">
+                        <div className="max-w-5xl mx-auto">
+                            <KeywordAnalysis data={keywordData} />
                         </div>
                     </section>
                 )}
