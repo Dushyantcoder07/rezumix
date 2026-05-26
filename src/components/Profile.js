@@ -11,7 +11,9 @@ import {
     Shield,
     Loader2,
     Check,
-    X
+    X,
+    Eye,
+    EyeOff
 } from 'lucide-react';
 import {
     toast,
@@ -149,6 +151,11 @@ const Profile = () => {
         newPassword: false,
         confirmPassword: false
     });
+
+    // Show/hide toggles for each password field
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         if (status === "loading") return;
@@ -328,12 +335,13 @@ const Profile = () => {
                                         <div className="relative group">
                                             <Lock className={`absolute left-4 top-3.5 w-5 h-5 transition-colors ${isLight ? "text-slate-400 group-focus-within:text-indigo-500" : "text-slate-500 group-focus-within:text-indigo-400"}`} />
                                             <input
-                                                type="password"
+                                                type={showCurrentPassword ? "text" : "password"}
                                                 placeholder="••••••••"
                                                 value={passwordChange.currentPassword}
                                                 onBlur={() => handleBlur("currentPassword")}
                                                 onChange={(e) => setPasswordChange({ ...passwordChange, currentPassword: e.target.value })}
                                                 className={`w-full rounded-xl py-3 pl-12 pr-10 focus:outline-none focus:ring-1 transition-all placeholder:text-slate-500 ${isLight ? "bg-white text-slate-900 border-slate-200" : "bg-[#111] text-white border-white/10"} ${
+                                                className={`w-full bg-[#111] border rounded-xl py-3 pl-12 pr-20 text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-600 ${
                                                     touched.currentPassword && !validation.currentPassword.valid
                                                         ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                                         : touched.currentPassword && validation.currentPassword.valid
@@ -341,6 +349,22 @@ const Profile = () => {
                                                         : "border-white/10 focus:border-indigo-500/50 focus:ring-indigo-500/50"
                                                 }`}
                                             />
+                                            {/* Show/Hide toggle */}
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowCurrentPassword((v) => !v)}
+                                                className={`absolute top-3.5 text-slate-500 hover:text-indigo-400 transition-colors focus:outline-none ${
+                                                    touched.currentPassword ? "right-12" : "right-4"
+                                                }`}
+                                                aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+                                            >
+                                                {showCurrentPassword ? (
+                                                    <EyeOff className="w-5 h-5" />
+                                                ) : (
+                                                    <Eye className="w-5 h-5" />
+                                                )}
+                                            </button>
+                                            {/* Validation icon */}
                                             {touched.currentPassword && (
                                                 <div className="absolute right-4 top-3.5">
                                                     {validation.currentPassword.valid ? (
@@ -365,12 +389,13 @@ const Profile = () => {
                                         <div className="relative group">
                                             <Lock className={`absolute left-4 top-3.5 w-5 h-5 transition-colors ${isLight ? "text-slate-400 group-focus-within:text-indigo-500" : "text-slate-500 group-focus-within:text-indigo-400"}`} />
                                             <input
-                                                type="password"
+                                                type={showNewPassword ? "text" : "password"}
                                                 placeholder="••••••••"
                                                 value={passwordChange.newPassword}
                                                 onBlur={() => handleBlur("newPassword")}
                                                 onChange={(e) => setPasswordChange({ ...passwordChange, newPassword: e.target.value })}
                                                 className={`w-full rounded-xl py-3 pl-12 pr-10 focus:outline-none focus:ring-1 transition-all placeholder:text-slate-500 ${isLight ? "bg-white text-slate-900 border-slate-200" : "bg-[#111] text-white border-white/10"} ${
+                                                className={`w-full bg-[#111] border rounded-xl py-3 pl-12 pr-20 text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-600 ${
                                                     touched.newPassword && !validation.newPassword.valid
                                                         ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                                         : touched.newPassword && validation.newPassword.valid
@@ -378,6 +403,22 @@ const Profile = () => {
                                                         : "border-white/10 focus:border-indigo-500/50 focus:ring-indigo-500/50"
                                                 }`}
                                             />
+                                            {/* Show/Hide toggle */}
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowNewPassword((v) => !v)}
+                                                className={`absolute top-3.5 text-slate-500 hover:text-indigo-400 transition-colors focus:outline-none ${
+                                                    touched.newPassword ? "right-12" : "right-4"
+                                                }`}
+                                                aria-label={showNewPassword ? "Hide password" : "Show password"}
+                                            >
+                                                {showNewPassword ? (
+                                                    <EyeOff className="w-5 h-5" />
+                                                ) : (
+                                                    <Eye className="w-5 h-5" />
+                                                )}
+                                            </button>
+                                            {/* Validation icon */}
                                             {touched.newPassword && (
                                                 <div className="absolute right-4 top-3.5">
                                                     {validation.newPassword.valid ? (
@@ -398,12 +439,13 @@ const Profile = () => {
                                         <div className="relative group">
                                             <Lock className={`absolute left-4 top-3.5 w-5 h-5 transition-colors ${isLight ? "text-slate-400 group-focus-within:text-indigo-500" : "text-slate-500 group-focus-within:text-indigo-400"}`} />
                                             <input
-                                                type="password"
+                                                type={showConfirmPassword ? "text" : "password"}
                                                 placeholder="••••••••"
                                                 value={passwordChange.confirmPassword}
                                                 onBlur={() => handleBlur("confirmPassword")}
                                                 onChange={(e) => setPasswordChange({ ...passwordChange, confirmPassword: e.target.value })}
                                                 className={`w-full rounded-xl py-3 pl-12 pr-10 focus:outline-none focus:ring-1 transition-all placeholder:text-slate-500 ${isLight ? "bg-white text-slate-900 border-slate-200" : "bg-[#111] text-white border-white/10"} ${
+                                                className={`w-full bg-[#111] border rounded-xl py-3 pl-12 pr-20 text-white focus:outline-none focus:ring-1 transition-all placeholder:text-slate-600 ${
                                                     touched.confirmPassword && !validation.confirmPassword.valid
                                                         ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
                                                         : touched.confirmPassword && validation.confirmPassword.valid
@@ -411,6 +453,22 @@ const Profile = () => {
                                                         : "border-white/10 focus:border-indigo-500/50 focus:ring-indigo-500/50"
                                                 }`}
                                             />
+                                            {/* Show/Hide toggle */}
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowConfirmPassword((v) => !v)}
+                                                className={`absolute top-3.5 text-slate-500 hover:text-indigo-400 transition-colors focus:outline-none ${
+                                                    touched.confirmPassword ? "right-12" : "right-4"
+                                                }`}
+                                                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                                            >
+                                                {showConfirmPassword ? (
+                                                    <EyeOff className="w-5 h-5" />
+                                                ) : (
+                                                    <Eye className="w-5 h-5" />
+                                                )}
+                                            </button>
+                                            {/* Validation icon */}
                                             {touched.confirmPassword && (
                                                 <div className="absolute right-4 top-3.5">
                                                     {validation.confirmPassword.valid ? (

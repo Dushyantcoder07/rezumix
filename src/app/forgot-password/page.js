@@ -10,7 +10,9 @@ import {
     Loader2,
     Send,
     ShieldCheck,
-    Lock
+    Lock,
+    Eye,
+    EyeOff
 } from "lucide-react";
 
 import toast from "react-hot-toast";
@@ -27,6 +29,10 @@ export default function ForgotPasswordPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const [loading, setLoading] = useState(false);
+
+    // Show/hide toggles for each password field
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     // SEND OTP
     const handleSendOTP = async (e) => {
@@ -249,13 +255,26 @@ export default function ForgotPasswordPage() {
                                 <Lock className="absolute left-4 top-3.5 w-5 h-5 text-slate-500" />
 
                                 <input
-                                    type="password"
+                                    type={showNewPassword ? "text" : "password"}
                                     placeholder="New Password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     required
-                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
                                 />
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowNewPassword((v) => !v)}
+                                    className="absolute right-4 top-3.5 text-slate-500 hover:text-blue-400 transition-colors focus:outline-none"
+                                    aria-label={showNewPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showNewPassword ? (
+                                        <EyeOff className="w-5 h-5" />
+                                    ) : (
+                                        <Eye className="w-5 h-5" />
+                                    )}
+                                </button>
 
                             </div>
 
@@ -272,13 +291,26 @@ export default function ForgotPasswordPage() {
                                 <Lock className="absolute left-4 top-3.5 w-5 h-5 text-slate-500" />
 
                                 <input
-                                    type="password"
+                                    type={showConfirmPassword ? "text" : "password"}
                                     placeholder="Confirm Password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
-                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+                                    className="w-full bg-[#050505] border border-white/10 rounded-xl py-3 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
                                 />
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword((v) => !v)}
+                                    className="absolute right-4 top-3.5 text-slate-500 hover:text-blue-400 transition-colors focus:outline-none"
+                                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showConfirmPassword ? (
+                                        <EyeOff className="w-5 h-5" />
+                                    ) : (
+                                        <Eye className="w-5 h-5" />
+                                    )}
+                                </button>
 
                             </div>
 

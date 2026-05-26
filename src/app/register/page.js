@@ -18,7 +18,9 @@ import {
     ArrowLeft,
     AlertCircle,
     Check,
-    X
+    X,
+    Eye,
+    EyeOff
 } from "lucide-react";
 import { useThemeMode } from "@/hooks/use-theme-mode";
 
@@ -137,6 +139,9 @@ export default function Register() {
 
     // Track which fields the user has interacted with (show errors only after touch)
     const [touched, setTouched] = useState({ fullName: false, email: false, password: false });
+
+    // Show/hide password toggle
+    const [showPassword, setShowPassword] = useState(false);
 
     // Animation state
     const [loaded, setLoaded] = useState(false);
@@ -413,13 +418,53 @@ export default function Register() {
                                                     <CheckCircle2 className={`w-5 h-5 ${isLight ? "text-green-600" : "text-green-400"}`} />
                                                 ) : (
                                                     <AlertCircle className={`w-5 h-5 ${isLight ? "text-red-600" : "text-red-400"}`} />
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium text-slate-300 ml-1 uppercase tracking-wider">Password</label>
+                                        <div className="relative group">
+                                            <Lock className="absolute left-4 top-3.5 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                            <input
+                                                type={showPassword ? "text" : "password"}
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                onBlur={() => handleBlur("password")}
+                                                placeholder="Create a secure password"
+                                                className={`w-full bg-[#050505] border rounded-xl py-3 pl-12 pr-20 text-white placeholder-slate-600 focus:outline-none focus:ring-1 transition-all ${
+                                                    touched.password && !validation.password.valid
+                                                        ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/50"
+                                                        : touched.password && validation.password.valid
+                                                        ? "border-green-500/30 focus:border-green-500/50 focus:ring-green-500/50"
+                                                        : "border-white/10 focus:border-blue-500/50 focus:ring-blue-500/50"
+                                                }`}
+                                            />
+                                            {/* Show/Hide toggle */}
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword((v) => !v)}
+                                                className={`absolute top-3.5 text-slate-500 hover:text-blue-400 transition-colors focus:outline-none ${
+                                                    touched.password ? "right-12" : "right-4"
+                                                }`}
+                                                aria-label={showPassword ? "Hide password" : "Show password"}
+                                            >
+                                                {showPassword ? (
+                                                    <EyeOff className="w-5 h-5" />
+                                                ) : (
+                                                    <Eye className="w-5 h-5" />
                                                 )}
-                                            </div>
-                                        )}
+                                            </button>
+                                            {/* Validation indicator icon */}
+                                            {touched.password && (
+                                                <div className="absolute right-4 top-3.5">
+                                                    {validation.password.valid ? (
+                                                        <CheckCircle2 className="w-5 h-5 text-green-400" />
+                                                    ) : (
+                                                        <AlertCircle className="w-5 h-5 text-red-400" />
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* Password Strength Meter */}
+                                        <PasswordStrengthMeter password={password} />
                                     </div>
-                                    {/* Password Strength Meter */}
-                                    <PasswordStrengthMeter password={password} />
-                                </div>
 
                                 {/* Status Messages */}
                                 {error && (
