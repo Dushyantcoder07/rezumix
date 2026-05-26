@@ -57,7 +57,7 @@
     "react-webcam": "^7.2.0",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
-    "sonner": "^2.0.3",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "validator": "^13.15.35"
