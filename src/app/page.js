@@ -23,6 +23,30 @@ import { useThemeMode } from "@/hooks/use-theme-mode";
 
 // --- UI Components ---
 
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+    },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08
+    },
+  },
+};
+
 // 1. Spotlight Card (Interactive Card)
 function SpotlightCard({ children, className = "", onClick, isLight = false }) {
   const mouseX = useMotionValue(0);
@@ -306,51 +330,72 @@ const Home = () => {
 
       {/* 2. FEATURES SECTION */}
       <section className={`relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 ${isLight ? "bg-white/50 border-y border-slate-200" : ""}`}>
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+        className="relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-20 text-center md:text-left">
             <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 ${isLight ? "text-slate-950" : "text-white"}`}>Everything You Need</h2>
             <p className={`${isLight ? "text-slate-600" : "text-slate-400"} text-base sm:text-lg`}>From application to offer letter, we got you covered.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 auto-rows-[minmax(220px,auto)] sm:auto-rows-[minmax(240px,auto)] md:auto-rows-[minmax(250px,auto)]">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 auto-rows-[minmax(220px,auto)] sm:auto-rows-[minmax(240px,auto)] md:auto-rows-[minmax(250px,auto)]"
+          >
             {features.map((feature, idx) => (
-              <SpotlightCard
-                key={idx}
-                className={`rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-between ${feature.colSpan}`}
-                isLight={isLight}
-              >
-                <div className={`absolute top-0 right-0 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gradient-to-br ${feature.gradient} blur-[40px] sm:blur-[50px] md:blur-[60px] opacity-50`} />
+              <motion.div variants={fadeUp}>
+                <SpotlightCard
+                  key={idx}
+                  className={`rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-between ${feature.colSpan}`}
+                >
+                  <div className={`absolute top-0 right-0 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gradient-to-br ${feature.gradient} blur-[40px] sm:blur-[50px] md:blur-[60px] opacity-50`} />
 
-                <div className="relative z-10">
-                  <div className={`w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 ${isLight ? "bg-slate-100 border border-slate-200 text-slate-900" : "bg-white/5 border border-white/10 text-white"}`}>
-                    <feature.icon className="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6" />
+                  <div className="relative z-10">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 sm:mb-5 md:mb-6 text-white">
+                      <feature.icon className="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6" />
+                    </div>
+
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-2.5 md:mb-3">{feature.title}</h3>
+                    <p className="text-slate-400 leading-relaxed mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base">
+                      {feature.desc}
+                    </p>
                   </div>
 
-                  <h3 className={`text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-2.5 md:mb-3 ${isLight ? "text-slate-950" : "text-white"}`}>{feature.title}</h3>
-                  <p className={`leading-relaxed mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base ${isLight ? "text-slate-600" : "text-slate-400"}`}>
-                    {feature.desc}
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 relative z-10 mt-auto">
-                  {feature.tags.map((tag, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className={`text-[10px] sm:text-xs font-medium px-3 py-1 rounded-full border backdrop-blur-md transition-all duration-300 hover:scale-105 ${tag.color}`}
-                    >
-                      {tag.text}
-                    </span>
-                  ))}
-                </div>
-              </SpotlightCard>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 relative z-10 mt-auto">
+                    {feature.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className={`text-[10px] sm:text-xs font-medium px-3 py-1 rounded-full border backdrop-blur-md transition-all duration-300 hover:scale-105 ${tag.color}`}
+                      >
+                        {tag.text}
+                      </span>
+                    ))}
+                  </div>
+                </SpotlightCard>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section >
 
 
       {/* 3. HOW IT WORKS */}
       <section className={`relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 ${isLight ? "bg-slate-50 border-y border-slate-200" : "bg-neutral-900/30 border-y border-white/5"}`}>
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-neutral-900/30 border-y border-white/5"
+      >
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
             <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 ${isLight ? "text-slate-950" : "text-white"}`}>How It Works</h2>
@@ -378,11 +423,18 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section >
 
 
       {/* 4. FAQ SECTION */}
       <section className={`relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 ${isLight ? "bg-white" : ""}`}>
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="relative z-10 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8"
+      >
         <div className="max-w-3xl mx-auto">
           <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-10 text-center ${isLight ? "text-slate-950" : "text-white"}`}>Questions?</h2>
           <div className="space-y-3 sm:space-y-4">
@@ -416,10 +468,17 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section >
 
       {/* 5. SUCCESS STORIES (Fixed Visibility) */}
       <section className={`relative z-10 py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-t ${isLight ? "bg-slate-50 border-slate-200" : "border-white/5 bg-[#080808]"}`}>
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+        className="relative z-10 py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-t border-white/5 bg-[#080808]"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
             <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 md:mb-6 ${isLight ? "text-slate-950" : "text-white"}`}>
@@ -456,9 +515,9 @@ const Home = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section >
 
-    </div>
+    </div >
   );
 };
 
